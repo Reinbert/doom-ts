@@ -1,0 +1,64 @@
+:host {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.screen-root {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.screen-wrapper {
+  position: relative;
+  margin: 0 auto;
+}
+
+.screen-wrapper > canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.FocusInfo {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin: 16px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.focus-card {
+  background: rgba(20, 20, 25, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+}
+
+.focus-card p {
+  margin: 0 0 6px 0;
+}
+
+.focus-card p:last-child {
+  margin-bottom: 0;
+}
+
+.focus-card em {
+  color: #ff9800;
+  font-style: normal;
+  font-weight: 600;
+}

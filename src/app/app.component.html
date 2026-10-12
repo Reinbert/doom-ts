@@ -1,0 +1,33 @@
+<div
+  class="screen-root"
+  #screenRoot
+  tabindex="0"
+  (focus)="onFocus()"
+  (blur)="onBlur()"
+>
+  <div class="screen-wrapper">
+    <canvas
+      #screen3d
+      [style.width.px]="canvasWidth()"
+      [style.height.px]="canvasHeight()"
+    ></canvas>
+    <canvas
+      #screen2d
+      [style.width.px]="canvasWidth()"
+      [style.height.px]="canvasHeight()"
+    ></canvas>
+  </div>
+</div>
+
+@if (!pointerLocked()) {
+  <div class="FocusInfo">
+    <div class="focus-card">
+      <p>
+        When clicking on the game area, your cursor will be locked. Press <em>Esc</em> to release it.
+      </p>
+      <p>
+        To ensure uninterrupted gameplay, the in-game <em>Esc</em> key (menu) is also accessible via the key directly below it (<em>Backtick</em> or <em>{{ altEscapeKey() }}</em>).
+      </p>
+    </div>
+  </div>
+}

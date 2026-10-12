@@ -1,5 +1,6 @@
-import { div, mul } from '../../src/doom/misc/fixed'
-import { expect } from 'chai'
+import { describe, it } from 'node:test'
+import assert from 'node:assert/strict'
+import { div, mul } from '../../src/doom/misc/fixed.ts'
 
 describe('Fixed', () => {
   describe('mul', () => {
@@ -14,7 +15,7 @@ describe('Fixed', () => {
       [ -170910304, 9429989, 1177483727 ],
     ].forEach(([ a, b, expected ]) => {
       it(`multiplies ${a} by ${b}`, () => {
-        expect(mul(a, b)).to.equal(expected)
+        assert.equal(mul(a, b), expected)
       })
     })
   })
@@ -32,7 +33,7 @@ describe('Fixed', () => {
       [ 0, 1073741824, 0 ],
     ].forEach(([ a, b, expected ]) => {
       it(`divides ${a} by ${b}`, () => {
-        expect(div(a, b)).to.equal(expected)
+        assert.equal(div(a, b), expected)
       })
     })
   })
