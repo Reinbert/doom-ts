@@ -32,7 +32,7 @@ export class Rendering extends LegacyRendering {
   levelGroup: LevelGroup | null = null
 
   textures: TextureLoader
-  things: Things
+  declare things: Things
 
   constructor(doom: Doom, public iVideo: Video) {
     super(doom)

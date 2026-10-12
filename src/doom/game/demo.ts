@@ -145,7 +145,7 @@ export class Demo {
   archive(): ArrayBuffer {
     this.buffer[this.ptr++] = DEMO_MARKER
 
-    return this.buffer.buffer.slice(0, this.ptr)
+    return this.buffer.buffer.slice(0, this.ptr) as ArrayBuffer
   }
 
 }

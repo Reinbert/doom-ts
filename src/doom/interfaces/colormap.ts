@@ -27,6 +27,6 @@ export class ColorMap extends Uint8ClampedArray {
     if (!array) {
       array = Array.from({ length: 256 }, (_, i) => i)
     }
-    super(array)
+    super(array as any)
   }
 }

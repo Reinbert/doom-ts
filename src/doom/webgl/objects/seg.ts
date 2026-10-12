@@ -289,8 +289,8 @@ export class Seg extends Group {
         top.material.envMap = this.textures.getSkyTexture(this.sky!.texture)
         top.material.refractionRatio = 1
         top.material.combine = MixOperation
-      } else {
-        this.updateTextureMap(top, sideDef.topTexture, lightLevel);
+      } else if (top) {
+        this.updateTextureMap(top as SegMesh, sideDef.topTexture, lightLevel);
       }
       this.updateTextureMap(bottom, sideDef.bottomTexture, lightLevel);
     }

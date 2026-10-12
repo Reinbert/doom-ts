@@ -108,9 +108,9 @@ export class Video implements VideoInterface {
   private blues = new Uint8ClampedArray()
 
   private updatePalette(): void {
-    this.reds = this.palette.getColors(Color.Red, this.gamma)
-    this.greens = this.palette.getColors(Color.Green, this.gamma)
-    this.blues = this.palette.getColors(Color.Blue, this.gamma)
+    this.reds = this.palette.getColors(Color.Red, this.gamma) as any
+    this.greens = this.palette.getColors(Color.Green, this.gamma) as any
+    this.blues = this.palette.getColors(Color.Blue, this.gamma) as any
   }
 
   private firstTime = true

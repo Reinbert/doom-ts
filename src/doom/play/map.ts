@@ -895,7 +895,7 @@ export class Map {
     }
 
     // shoot a thing
-    const th = inter.d
+    const th = inter.d as MObj
     if (th === this.shootThing) {
       // can't shoot self
       return true
@@ -991,7 +991,7 @@ export class Map {
     }
 
     // shoot a thing
-    const th = inter.d
+    const th = inter.d as MObj
     if (th === this.shootThing) {
       // can't shoot self
       return true

@@ -9,7 +9,7 @@ export class PatchTexture extends DataTexture {
     rVideo.drawPatch(patch.leftOffset, patch.topOffset, 0, patch)
 
     const source = rVideo.screens[0]
-    super(alphaMap ? source.alpha : source, patch.width, patch.height, RedFormat)
+    super((alphaMap ? source.alpha : source) as unknown as BufferSource, patch.width, patch.height, RedFormat)
 
     this.flipY = true
 

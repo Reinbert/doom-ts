@@ -67,7 +67,7 @@ export class AgnosticDefaults {
     const te = new TextEncoder()
     const buffer = te.encode(lines.join('\n'))
 
-    return await fs.write(this.configFile, buffer)
+    return await fs.write(this.configFile, buffer.buffer as ArrayBuffer)
   }
 
   async load(configFile?: string): Promise<void> {
@@ -105,7 +105,7 @@ export class AgnosticDefaults {
     if (def !== undefined && typeof def === 'object') {
       return def.get()
     } else {
-      return def
+      return def as number | null | undefined
     }
   }
   set(name: string, value: number): void {

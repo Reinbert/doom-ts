@@ -141,13 +141,13 @@ export class Video implements VideoInterface {
 
     const data = this.rVideo.screens[0]
     this.overlayScreenMap = new DataTexture(
-      data, data.width, data.height, RedFormat,
+      data as unknown as BufferSource, data.width, data.height, RedFormat,
     )
     this.overlayScreenMap.flipY = true
 
     const alpha = data.alpha
     this.overlayAlphaMap = new DataTexture(
-      alpha, data.width, data.height, RedFormat,
+      alpha as unknown as BufferSource, data.width, data.height, RedFormat,
     )
     this.overlayAlphaMap.flipY = true
 
