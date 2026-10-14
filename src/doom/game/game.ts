@@ -523,9 +523,9 @@ export class Game {
       // always let key up events filter down
       return false
     case EvType.Mouse:
-      this.mouseButtons[0] = !!(ev.data1 & 1)
-      this.mouseButtons[1] = !!(ev.data1 & 2)
-      this.mouseButtons[2] = !!(ev.data1 & 4)
+      this.mouseButtons[this.mouseBFire] = !!(ev.data1 & 1)
+      this.mouseButtons[this.mouseBStrafe] = !!(ev.data1 & 2)
+      this.mouseButtons[this.mouseBForward] = !!(ev.data1 & 4)
       this.mouseX = ev.data2 * (this.mouseSensitivity + 5) / 10
       this.mouseY = ev.data3 * (this.mouseSensitivity + 5) / 10
       // eat events

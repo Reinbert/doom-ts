@@ -4,10 +4,6 @@ export const Button1Mask = 0x1
 export const Button2Mask = 0x2
 export const Button3Mask = 0x4
 
-export const Button1 = 1
-export const Button2 = 3
-export const Button3 = 2
-
 interface ScreenListener {
   pending: XEvent[],
   listeners: {
@@ -60,6 +56,7 @@ export function XListenEvent(display: HTMLElement, mouse: boolean): void {
       l.listeners.mousemove = listener
     }
   }
+
   const onBlur = () => {
     display.removeEventListener('keydown', listener)
     delete l.listeners.keydown
