@@ -10,7 +10,7 @@ import {
   signal,
 } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { Doom as RawDoom } from '../doom/doom'
+import { Doom } from '../doom/doom'
 import { EvType } from '../doom/doom/event'
 import { ScanCode } from '../doom/interfaces/scancodes'
 import { Params } from '../doom/doom/params'
@@ -89,7 +89,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   canvasWidth = signal(window.innerWidth)
   canvasHeight = signal(window.innerHeight)
 
-  private doom?: RawDoom
+  private doom?: Doom
   private audioContext?: AudioContext
 
   // Designated event listener functions that can be added and removed. (We need the => function somewhere to access 'this' object.)
@@ -159,7 +159,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     const searchParams = new URLSearchParams(window.location.search || DEFAULT_PARAMS)
     const params = this.parseParams(searchParams)
 
-    this.doom = new RawDoom({
+    this.doom = new Doom({
       ...params,
       input,
       screen2d,

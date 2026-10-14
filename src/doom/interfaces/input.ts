@@ -64,6 +64,7 @@ export class Input {
         (mouseEvent.buttons & Button2Mask ? 2 : 0) |
         (mouseEvent.buttons & Button3Mask ? 4 : 0)
 
+      // Multiply by 4 and reverse Y direction.
       event.data2 = mouseEvent.movementX << 2
       event.data3 = -mouseEvent.movementY << 2
 
