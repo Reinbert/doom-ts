@@ -205,6 +205,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onBlur(): void {
+    if (this.audioCtx && this.audioCtx.state === 'running') {
+      this.audioCtx.suspend().catch(() => {});
+    }
+
     setTimeout(() => {
       this.screenRootRef.nativeElement.blur();
       if (navigator.keyboard) {
