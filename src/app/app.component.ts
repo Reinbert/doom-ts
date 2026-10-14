@@ -17,35 +17,43 @@ import { Params } from '../doom/doom/params';
 import { RenderingMode } from '../doom/rendering/rendering-interface';
 import { SAMPLE_RATE } from '../doom/interfaces/sound';
 
-const DEFAULT_PARAMS = '?iwad=doom1.wad&renderer=webgl&config=modern.cfg&episode=1&map=1&skill=2&sound='
+const DEFAULT_PARAMS = '?iwad=doom1.wad&renderer=webgl&config=modern.cfg&episode=1&map=1&skill=2&sound=';
 
 type ParamsTranslateFunc = (v: string, props: Partial<Params>) => void;
 
 const paramsTranslates: { [k: string]: ParamsTranslateFunc } = {
   iwad: (v, props) => {
-    if (v) props.iwad = v;
+    if (v) {
+      props.iwad = v;
+    }
   },
   renderer: (v: string, props: Partial<Params>) => {
     switch (v) {
-      case 'legacy':
-        props.renderingMode = RenderingMode.Legacy;
-        break;
-      case 'webgl':
-        props.renderingMode = RenderingMode.WebGL;
-        break;
+    case 'legacy':
+      props.renderingMode = RenderingMode.Legacy;
+      break;
+    case 'webgl':
+      props.renderingMode = RenderingMode.WebGL;
+      break;
     }
   },
   config: (v, props) => {
     props.config = v;
   },
   episode: (v, props) => {
-    if (v) props.episode = parseInt(v, 10);
+    if (v) {
+      props.episode = parseInt(v, 10);
+    }
   },
   map: (v, props) => {
-    if (v) props.map = parseInt(v, 10);
+    if (v) {
+      props.map = parseInt(v, 10);
+    }
   },
   skill: (v, props) => {
-    if (v) props.skill = parseInt(v, 10);
+    if (v) {
+      props.skill = parseInt(v, 10);
+    }
   },
   noMonsters: (_, props) => {
     props.noMonsters = true;
@@ -64,9 +72,9 @@ const paramsTranslates: { [k: string]: ParamsTranslateFunc } = {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [ CommonModule ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: [ './app.component.css' ],
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('screenRoot') screenRootRef!: ElementRef<HTMLDivElement>;
@@ -81,8 +89,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   canvasWidth = signal(window.innerWidth);
   canvasHeight = signal(window.innerHeight);
 
-  private doomInst?: RawDoom;
-  private audioCtx?: AudioContext;
+  private doom?: RawDoom;
+  private audioContext?: AudioContext;
+
+  // Designated event listener functions that can be added and removed. (We need the => function somewhere to access 'this' object.)
   private resizeHandler = () => this.onResize();
   private pointerLockChangeHandler = () => this.onPointerLockChange();
   private pointerLockErrorHandler = () => this.onBlur();
@@ -103,6 +113,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     window.addEventListener('resize', this.resizeHandler);
+    // Note: Pressing the Escape key will unlock the pointer lock and trigger this function.
     document.addEventListener('pointerlockchange', this.pointerLockChangeHandler);
     document.addEventListener('pointerlockerror', this.pointerLockErrorHandler);
   }
@@ -112,14 +123,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     document.removeEventListener('pointerlockchange', this.pointerLockChangeHandler);
     document.removeEventListener('pointerlockerror', this.pointerLockErrorHandler);
 
-    if (this.doomInst) {
-      this.doomInst.quit();
-      this.doomInst = undefined;
+    if (this.doom) {
+      this.doom.quit();
+      this.doom = undefined;
     }
 
-    if (this.audioCtx) {
-      this.audioCtx.close().catch(() => {});
-      this.audioCtx = undefined;
+    if (this.audioContext) {
+      this.audioContext.close().catch(() => {
+      });
+      this.audioContext = undefined;
     }
   }
 
@@ -129,7 +141,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     if (typeof window !== 'undefined') {
-      for (const [key, value] of searchParams) {
+      for (const [ key, value ] of searchParams) {
         if (key in paramsTranslates) {
           paramsTranslates[key](value, params);
         }
@@ -147,7 +159,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     const searchParams = new URLSearchParams(window.location.search || DEFAULT_PARAMS);
     const params = this.parseParams(searchParams);
 
-    const doomInst = new RawDoom({
+    this.doom = new RawDoom({
       ...params,
       input,
       screen2d,
@@ -155,24 +167,24 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       iwad: params.iwad ?? 'doom1.wad',
     });
 
-    this.doomInst = doomInst;
-    doomInst.onError = console.error;
+    this.doom.onError = console.error;
 
     const hasSound = searchParams.has('sound');
     if (hasSound) {
-      this.audioCtx = new AudioContext({        sampleRate: SAMPLE_RATE      });
-      doomInst.iSound.audioCtx = this.audioCtx;
+      this.audioContext = new AudioContext({ sampleRate: SAMPLE_RATE });
+      this.doom.iSound.audioCtx = this.audioContext;
 
       // Suspend audio, if game doesn't have focus.
-      if (!this.pointerLocked() && this.audioCtx.state === 'running') {
-        this.audioCtx.suspend().catch(() => {});
+      if (!this.pointerLocked() && this.audioContext.state === 'running') {
+        this.audioContext.suspend().catch(() => {
+        });
       }
     }
 
     this.onResize();
 
     try {
-      doomInst.init();
+      this.doom.init();
     } catch (e) {
       console.error(e);
     }
@@ -185,12 +197,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.canvasWidth.set(width);
     this.canvasHeight.set(height);
 
-    this.doomInst?.iVideo.setSize(width, height);
+    this.doom?.iVideo.setSize(width, height);
   }
 
   onFocus(): void {
-    if (this.audioCtx && this.audioCtx.state === 'suspended') {
-      this.audioCtx.resume().catch(() => {});
+    if (this.audioContext && this.audioContext.state === 'suspended') {
+      this.audioContext.resume().catch(() => {
+      });
     }
 
     setTimeout(() => {
@@ -207,8 +220,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onBlur(): void {
-    if (this.audioCtx && this.audioCtx.state === 'running') {
-      this.audioCtx.suspend().catch(() => {});
+    if (this.audioContext && this.audioContext.state === 'running') {
+      this.audioContext.suspend().catch(() => {
+      });
     }
 
     setTimeout(() => {
@@ -228,7 +242,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     if (running) {
       this.screenRootRef.nativeElement.focus();
     } else {
-      this.doomInst?.postEvent({
+      this.doom?.postEvent({
         type: EvType.KeyDown,
         data1: ScanCode.Escape,
         data2: 0,
