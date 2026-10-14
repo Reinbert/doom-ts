@@ -17,6 +17,8 @@ import { Params } from '../doom/doom/params';
 import { RenderingMode } from '../doom/rendering/rendering-interface';
 import { SAMPLE_RATE } from '../doom/interfaces/sound';
 
+const DEFAULT_PARAMS = '?iwad=doom1.wad&renderer=webgl&config=modern.cfg&episode=1&map=1&skill=2&sound='
+
 type ParamsTranslateFunc = (v: string, props: Partial<Params>) => void;
 
 const paramsTranslates: { [k: string]: ParamsTranslateFunc } = {
@@ -121,13 +123,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private parseParams(): Partial<Params> {
+  private parseParams(searchParams: URLSearchParams): Partial<Params> {
     const params: Partial<Params> = {
       iwad: 'doom1.wad',
     };
 
     if (typeof window !== 'undefined') {
-      const searchParams = new URLSearchParams(window.location.search);
       for (const [key, value] of searchParams) {
         if (key in paramsTranslates) {
           paramsTranslates[key](value, params);
@@ -143,7 +144,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     const screen2d = this.screen2dRef.nativeElement;
     const screen3d = this.screen3dRef.nativeElement;
 
-    const params = this.parseParams();
+    const searchParams = new URLSearchParams(window.location.search || DEFAULT_PARAMS);
+    const params = this.parseParams(searchParams);
 
     const doomInst = new RawDoom({
       ...params,
@@ -156,7 +158,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.doomInst = doomInst;
     doomInst.onError = console.error;
 
-    const searchParams = new URLSearchParams(window.location.search);
     const hasSound = searchParams.has('sound');
     if (hasSound) {
       const audioCtx = new AudioContext({
