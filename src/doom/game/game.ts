@@ -46,21 +46,21 @@ const NUM_KEYS = 256
 // DOOM Par Times
 const pars = [
   [ 0 ],
-  [ 0,30,75,120,90,165,180,180,30,165 ],
-  [ 0,90,90,90,120,90,360,240,30,170 ],
-  [ 0,90,45,90,150,90,90,165,30,135 ],
+  [ 0, 30, 75, 120, 90, 165, 180, 180, 30, 165 ],
+  [ 0, 90, 90, 90, 120, 90, 360, 240, 30, 170 ],
+  [ 0, 90, 45, 90, 150, 90, 90, 165, 30, 135 ],
 ]
 
 // DOOM II Par Times
 const cPars = [
   //  1-10
-  30,90,120,120,90,150,120,120,270,90,
+  30, 90, 120, 120, 90, 150, 120, 120, 270, 90,
   // 11-20
-  210,150,150,150,210,150,420,150,210,150,
+  210, 150, 150, 150, 210, 150, 420, 150, 210, 150,
   // 21-30
-  240,150,180,150,150,300,330,420,300,180,
+  240, 150, 180, 150, 150, 300, 330, 420, 300, 180,
   // 31-32
-  120,30,
+  120, 30,
 ]
 
 export const SAVE_GAME_NAME = 'doomsav'
@@ -188,50 +188,65 @@ export class Game {
   private get autoMap(): AutoMap {
     return this.doom.autoMap
   }
+
   private get dSound(): DSound {
     return this.doom.dSound
   }
+
   private get finale(): Finale {
     return this.doom.finale
   }
+
   private get headsUp(): HeadsUp {
     return this.doom.headsUp
   }
+
   private get inter() {
     return this.play.inter
   }
+
   private get menu(): Menu {
     return this.doom.menu
   }
+
   private get net(): Net {
     return this.doom.net
   }
+
   private get play(): Play {
     return this.doom.play
   }
+
   private get rData(): RData {
     return this.doom.rData
   }
+
   private get rendering(): RenderingInterface {
     return this.doom.rendering
   }
+
   private get saveGame(): SaveGame {
     return this.play.saveGame
   }
+
   private get statusBar(): StatusBar {
     return this.doom.statusBar
   }
+
   private get tick(): Tick {
     return this.play.tick
   }
+
   private get wad(): LumpReader {
     return this.doom.wad
   }
+
   private get win(): Win {
     return this.doom.win
   }
 
-  constructor(private doom: Doom) { }
+  constructor(private doom: Doom) {
+  }
 
   //
   // G_BuildTiccmd
@@ -250,7 +265,7 @@ export class Game {
       this.joyButtons[this.joyBStrafe]
 
     const speed = this.gameKeyDown[this.keySpeed] ||
-      this.joyButtons[this.joyBSpeed] ? 1 : 0
+    this.joyButtons[this.joyBSpeed] ? 1 : 0
 
     let forward = 0
     let side = 0
@@ -464,7 +479,7 @@ export class Game {
           this.displayPlayer = 0
         }
       } while (!this.playerInGame[this.displayPlayer] &&
-        this.displayPlayer !== this.consolePlayer)
+      this.displayPlayer !== this.consolePlayer)
 
       return true
     }
@@ -627,7 +642,7 @@ export class Game {
               this.saveDescription = 'NET GAME'
             }
             this.saveGameSlot = (this.players[i].cmd.buttons & ButtonCode.SaveMask) >>
-                ButtonCode.SaveShift
+              ButtonCode.SaveShift
 
             this.gameAction = GameAction.SaveGame
             break
@@ -749,6 +764,7 @@ export class Game {
   //
 
   private secretExit = false
+
   exitLevel(): void {
     this.secretExit = false
     this.gameAction = GameAction.Completed
@@ -924,6 +940,7 @@ export class Game {
   }
 
   private saveName = ''
+
   loadGame(name: string): void {
     this.saveName = name
     this.gameAction = GameAction.LoadGame
@@ -1115,7 +1132,7 @@ export class Game {
     }
 
     if (this.doom.fastParam ||
-        skill === Skill.Nightmare && this.gameSkill !== Skill.Nightmare) {
+      skill === Skill.Nightmare && this.gameSkill !== Skill.Nightmare) {
       for (let i = StateNum.SargRun1; i <= StateNum.SargPain2; ++i) {
         states[i].tics >>= 1
         mObjInfos[MObjType.Bruisershot].speed = 20 * FRACUNIT
@@ -1231,6 +1248,7 @@ export class Game {
   // G_PlayDemo
   //
   private defDemoName = ''
+
   deferedPlayDemo(name: string): void {
     this.defDemoName = name
     this.gameAction = GameAction.PlayDemo
@@ -1335,14 +1353,21 @@ export class Game {
     },
     cheats: { noClip: false, godMode: false, noMomentum: false },
     powers: {
-      invulnerability: () => {},
-      strength: () => {},
-      invisibility: () => {},
-      ironfeet: () => {},
-      allMap: () => {},
-      infrared: () => {},
+      invulnerability: () => {
+      },
+      strength: () => {
+      },
+      invisibility: () => {
+      },
+      ironfeet: () => {
+      },
+      allMap: () => {
+      },
+      infrared: () => {
+      },
     },
   }
+
   private updateDebugFromGame() {
     const {
       debug: { position, health, cards, weapons, cheats },
@@ -1388,6 +1413,7 @@ export class Game {
     cheats.godMode = !!(player.cheats & Cheat.GodMode)
     cheats.noMomentum = !!(player.cheats & Cheat.NoMomentum)
   }
+
   private updateGameFromDebug() {
     const {
       debug: { position, health, cards, weapons, cheats },
@@ -1433,6 +1459,7 @@ export class Game {
       (cheats.godMode ? Cheat.GodMode : 0) |
       (cheats.noMomentum ? Cheat.NoMomentum : 0)
   }
+
   setupDebugGui(gui: GUI) {
     const {
       debug: { position, health, cards, weapons, cheats, powers },

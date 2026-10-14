@@ -54,7 +54,7 @@ export const enum ButtonCode {
   // If true, the next 3 bits hold weapon num.
   Change = 4,
   // The 3bit weapon mask and shift, convenience.
-  WeaponMask = (8+16+32),
+  WeaponMask = (8 + 16 + 32),
   WeaponShift = 3,
 
   // Pause the game.
@@ -64,7 +64,7 @@ export const enum ButtonCode {
 
   // Savegame slot numbers
   //  occupy the second byte of buttons.
-  SaveMask = (4+8+16),
+  SaveMask = (4 + 8 + 16),
   SaveShift = 2,
 }
 

@@ -10,6 +10,7 @@ interface ScreenListener {
     [K in keyof HTMLElementEventMap]?: (this: HTMLElement, ev: HTMLElementEventMap[K]) => unknown
   },
 }
+
 const listeners = new Map<HTMLElement, ScreenListener>()
 
 export function XPending(display: HTMLElement): number {
@@ -18,7 +19,7 @@ export function XPending(display: HTMLElement): number {
 }
 
 export function XNextEvent(display: HTMLElement): XEvent | never {
-  for (;;) {
+  for (; ;) {
     const l = listeners.get(display)
     if (l !== undefined && l.pending.length > 0) {
       return l.pending.shift() as XEvent
@@ -91,7 +92,7 @@ export function XQuitEvent(display: HTMLElement): void {
   l.pending = [];
 
   (Object.keys(l.listeners) as (keyof HTMLElementEventMap)[])
-    .forEach(k => {
-      display.removeEventListener(k, l.listeners[k] as never)
-    })
+  .forEach(k => {
+    display.removeEventListener(k, l.listeners[k] as never)
+  })
 }
