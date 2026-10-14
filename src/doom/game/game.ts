@@ -260,28 +260,19 @@ export class Game {
 
     cmd.consistancy = this.consistancy[this.consolePlayer][this.net.makeTic % BACKUP_TICS]
 
-    const strafe = this.gameKeyDown[this.keyStrafe] ||
-      this.mouseButtons[this.mouseBStrafe] ||
-      this.joyButtons[this.joyBStrafe]
-
-    const speed = this.gameKeyDown[this.keySpeed] ||
-    this.joyButtons[this.joyBSpeed] ? 1 : 0
+    const strafe = this.gameKeyDown[this.keyStrafe] || this.mouseButtons[this.mouseBStrafe] || this.joyButtons[this.joyBStrafe]
+    const speed = this.gameKeyDown[this.keySpeed] || this.joyButtons[this.joyBSpeed] ? 1 : 0
 
     let forward = 0
     let side = 0
 
     // use two stage accelerative turning
     // on the keyboard and joystick
-    if (this.joyXMove < 0 ||
-      this.joyXMove > 0 ||
-      this.gameKeyDown[this.keyRight] ||
-      this.gameKeyDown[this.keyLeft]
-    ) {
+    if (this.joyXMove < 0 || this.joyXMove > 0 || this.gameKeyDown[this.keyRight] || this.gameKeyDown[this.keyLeft]) {
       this.turnHeld += this.net.ticDup
     } else {
       this.turnHeld = 0
     }
-
 
     let tSpeed: number
     if (this.turnHeld < SLOW_TURN_TICS) {
@@ -340,13 +331,11 @@ export class Game {
     }
 
     // buttons
-    if (this.gameKeyDown[this.keyFire] ||
-      this.mouseButtons[this.mouseBFire]
-    ) {
+    if (this.gameKeyDown[this.keyFire] || this.mouseButtons[this.mouseBFire] || this.joyButtons[this.joyBFire]) {
       cmd.buttons |= ButtonCode.Attack
     }
 
-    if (this.gameKeyDown[this.keyUse]) {
+    if (this.gameKeyDown[this.keyUse] || this.joyButtons[this.joyBUse]) {
       cmd.buttons |= ButtonCode.Use
       // clear double clicks if hit use button
       this.dClicks = 0
@@ -387,6 +376,9 @@ export class Game {
         this.dClickState = false
       }
     }
+
+    // Note: Original code features a "strafe double click" here.
+    // https://github.com/id-Software/DOOM/blob/a77dfb96cb91780ca334d0d4cfd86957558007e0/linuxdoom-1.10/g_game.c#L378
 
     forward += this.mouseY
     if (strafe) {
@@ -546,10 +538,10 @@ export class Game {
       // eat events
       return true
     case EvType.Joystick:
-      this.joyButtons[0] = !!(ev.data1 & 1)
-      this.joyButtons[1] = !!(ev.data1 & 2)
-      this.joyButtons[2] = !!(ev.data1 & 4)
-      this.joyButtons[2] = !!(ev.data1 & 8)
+      this.joyButtons[this.joyBFire] = !!(ev.data1 & 1)
+      this.joyButtons[this.joyBStrafe] = !!(ev.data1 & 2)
+      this.joyButtons[this.joyBSpeed] = !!(ev.data1 & 4)
+      this.joyButtons[this.joyBUse] = !!(ev.data1 & 8)
       this.joyXMove = ev.data2
       this.joyYMove = ev.data3
       // eat events

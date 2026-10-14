@@ -28,12 +28,14 @@ export class Input {
 
       this.postEvent(event)
       break
+
     case 'keyup':
       event.type = EvType.KeyUp
       this.populateKeyEvent(event, keyEvent)
 
       this.postEvent(event)
       break
+
     case 'mousedown':
       event.type = EvType.Mouse
       // We could just use 'mouseEvent.buttons' without any bit logic, but I'm going to leave it here.
@@ -72,8 +74,10 @@ export class Input {
         document.pointerLockElement !== null) {
         this.postEvent(event)
       }
-
       break
+
+    default:
+      console.debug(xEvent.type)
     }
   }
 
