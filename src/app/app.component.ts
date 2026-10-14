@@ -160,11 +160,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const hasSound = searchParams.has('sound');
     if (hasSound) {
-      const audioCtx = new AudioContext({
-        sampleRate: SAMPLE_RATE,
-      });
-      this.audioCtx = audioCtx;
-      doomInst.iSound.audioCtx = audioCtx;
+      this.audioCtx = new AudioContext({        sampleRate: SAMPLE_RATE      });
+      doomInst.iSound.audioCtx = this.audioCtx;
+
+      // Suspend audio, if game doesn't have focus.
+      if (!this.pointerLocked() && this.audioCtx.state === 'running') {
+        this.audioCtx.suspend().catch(() => {});
+      }
     }
 
     this.onResize();
