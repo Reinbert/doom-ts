@@ -356,9 +356,7 @@ export class Game {
     }
 
     // forward double click
-    if (this.mouseButtons[this.mouseBForward] !== this.dClickState &&
-      this.dClickTime > 1
-    ) {
+    if (this.mouseButtons[this.mouseBForward] !== this.dClickState && this.dClickTime > 1) {
       this.dClickState = this.mouseButtons[this.mouseBForward]
       if (this.dClickState) {
         this.dClicks++
@@ -430,9 +428,7 @@ export class Game {
     this.gameState = GameState.Level
 
     for (let i = 0; i < MAX_PLAYERS; ++i) {
-      if (this.playerInGame[i] &&
-        this.players[i].playerState === PlayerState.Dead
-      ) {
+      if (this.playerInGame[i] && this.players[i].playerState === PlayerState.Dead) {
         this.players[i].playerState = PlayerState.Reborn
         this.players[i].frags.fill(0)
       }
@@ -462,28 +458,24 @@ export class Game {
   responder(ev: DEvent): boolean {
     // allow spy mode changes even during the demo
     if (this.gameState === GameState.Level && ev.type === EvType.KeyDown &&
-      ev.data1 === ScanCode.F12 && (this.singleDemo || !this.deathMatch)
-    ) {
+      ev.data1 === ScanCode.F12 && (this.singleDemo || !this.deathMatch)) {
       // spy mode
       do {
         this.displayPlayer++
         if (this.displayPlayer === MAX_PLAYERS) {
           this.displayPlayer = 0
         }
-      } while (!this.playerInGame[this.displayPlayer] &&
-      this.displayPlayer !== this.consolePlayer)
+      } while (!this.playerInGame[this.displayPlayer] && this.displayPlayer !== this.consolePlayer)
 
       return true
     }
 
     // any other key pops up menu if in demos
     if (this.gameAction === GameAction.Nothing && !this.singleDemo &&
-      (this.demoPlayback || this.gameState === GameState.DemoScreen)
-    ) {
+      (this.demoPlayback || this.gameState === GameState.DemoScreen)) {
       if (ev.type === EvType.KeyDown ||
         ev.type === EvType.Mouse && ev.data1 ||
-        ev.type === EvType.Joystick && ev.data1
-      ) {
+        ev.type === EvType.Joystick && ev.data1) {
         this.menu.startControlPanel()
         return true
       }
@@ -633,8 +625,7 @@ export class Game {
             if (!this.saveDescription) {
               this.saveDescription = 'NET GAME'
             }
-            this.saveGameSlot = (this.players[i].cmd.buttons & ButtonCode.SaveMask) >>
-              ButtonCode.SaveShift
+            this.saveGameSlot = (this.players[i].cmd.buttons & ButtonCode.SaveMask) >> ButtonCode.SaveShift
 
             this.gameAction = GameAction.SaveGame
             break
@@ -766,8 +757,7 @@ export class Game {
   secretExitLevel(): void {
     // IF NO WOLF3D LEVELS, NO SECRET EXIT!
     if (this.doom.instance.mode === GameMode.Commercial &&
-      this.wad.checkNumForName('map31') < 0
-    ) {
+      this.wad.checkNumForName('map31') < 0) {
       this.secretExit = false
     } else {
       this.secretExit = true
@@ -1123,8 +1113,7 @@ export class Game {
       this.respawnMonsters = false
     }
 
-    if (this.doom.fastParam ||
-      skill === Skill.Nightmare && this.gameSkill !== Skill.Nightmare) {
+    if (this.doom.fastParam || skill === Skill.Nightmare && this.gameSkill !== Skill.Nightmare) {
       for (let i = StateNum.SargRun1; i <= StateNum.SargPain2; ++i) {
         states[i].tics >>= 1
         mObjInfos[MObjType.Bruisershot].speed = 20 * FRACUNIT
@@ -1254,8 +1243,7 @@ export class Game {
     this.demo.beginPlaying()
 
     if (this.demo.version !== this.vanillaVersionCode() &&
-      !(this.doom.instance.version <= GameVersion.Doom12 && this.demo.old)
-    ) {
+      !(this.doom.instance.version <= GameVersion.Doom12 && this.demo.old)) {
       throw `Demo is from a different game version (read ${this.demo.version}, should be ${this.vanillaVersionCode()})`
     }
 
@@ -1316,10 +1304,7 @@ export class Game {
     }
 
     if (this.demoRecording) {
-      fs.write(
-        this.demoName,
-        this.demo.archive(),
-      )
+      fs.write(this.demoName, this.demo.archive())
 
       this.demoRecording = false
 

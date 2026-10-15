@@ -174,10 +174,7 @@ export class Input {
       event.data2 = axes[0]  // x-axis
       event.data3 = axes[1] // y-axis
 
-      // if (document.pointerLockElement !== null) {
-        this.postEvent(event)
-      //   console.debug(event)
-      // }
+      this.postEvent(event)
     }
 
     // Store current states for comparison in next loop.
