@@ -643,7 +643,7 @@ export class Doom {
 
     console.log('M_LoadDefaults: Load system defaults.')
     // load before initing other systems
-    this.defaults.load(this.params.config)
+    await this.defaults.load(this.params.config)
 
     this.addFile(this.params.iwad)
 

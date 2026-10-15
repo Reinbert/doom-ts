@@ -307,7 +307,7 @@ export class Game {
         cmd.angleTurn -= this.angleTurn[tSpeed]
       }
       if (this.joyXMove < 0) {
-        cmd.angleTurn -= this.angleTurn[tSpeed]
+        cmd.angleTurn += this.angleTurn[tSpeed]
       }
     }
 
@@ -530,18 +530,18 @@ export class Game {
       // always let key up events filter down
       return false
     case EvType.Mouse:
-      this.mouseButtons[this.mouseBFire] = !!(ev.data1 & 1)
-      this.mouseButtons[this.mouseBStrafe] = !!(ev.data1 & 2)
-      this.mouseButtons[this.mouseBForward] = !!(ev.data1 & 4)
+      this.mouseButtons[0] = !!(ev.data1 & 1)
+      this.mouseButtons[1] = !!(ev.data1 & 2)
+      this.mouseButtons[2] = !!(ev.data1 & 4)
       this.mouseX = ev.data2 * (this.mouseSensitivity + 5) / 10
       this.mouseY = ev.data3 * (this.mouseSensitivity + 5) / 10
       // eat events
       return true
     case EvType.Joystick:
-      this.joyButtons[this.joyBFire] = !!(ev.data1 & 1)
-      this.joyButtons[this.joyBStrafe] = !!(ev.data1 & 2)
-      this.joyButtons[this.joyBSpeed] = !!(ev.data1 & 4)
-      this.joyButtons[this.joyBUse] = !!(ev.data1 & 8)
+      this.joyButtons[0] = !!(ev.data1 & 1)
+      this.joyButtons[1] = !!(ev.data1 & 2)
+      this.joyButtons[2] = !!(ev.data1 & 4)
+      this.joyButtons[3] = !!(ev.data1 & 8)
       this.joyXMove = ev.data2
       this.joyYMove = ev.data3
       // eat events

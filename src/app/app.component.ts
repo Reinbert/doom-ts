@@ -17,7 +17,8 @@ import { Params } from '../doom/doom/params'
 import { RenderingMode } from '../doom/rendering/rendering-interface'
 import { SAMPLE_RATE } from '../doom/interfaces/sound'
 
-const DEFAULT_PARAMS = '?iwad=doom1.wad&renderer=webgl&config=modern.cfg&episode=1&map=1&skill=2&sound='
+// const DEFAULT_PARAMS = '?iwad=doom1.wad&renderer=webgl&config=modern.cfg&episode=1&map=1&skill=2&sound='
+const DEFAULT_PARAMS = '?iwad=doom1.wad&renderer=webgl&config=joystick.cfg&episode=1&map=1&skill=2&sound='
 
 type ParamsTranslateFunc = (v: string, props: Partial<Params>) => void;
 

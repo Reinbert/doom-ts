@@ -99,6 +99,8 @@ export class Input {
       return
     }
 
+    this.processGamepad()
+
     while (XPending(this.screen)) {
       this.getEvent()
     }
@@ -114,6 +116,10 @@ export class Input {
 
     this.screen = screen
 
+    if (this.useJoystick && navigator.getGamepads) {
+      this.processGamepad = this._processGamepad
+    }
+
     XListenEvent(this.screen, this.useMouse)
   }
 
@@ -123,5 +129,59 @@ export class Input {
     }
 
     XQuitEvent(this.screen)
+  }
+
+  processGamepad: () => void = () => ({})
+
+  protected buttons: number
+  protected axes: number[]
+
+  protected _processGamepad(): void {
+    const gamepads: Gamepad[] = navigator.getGamepads().filter(gamepad => gamepad)
+    if (!gamepads?.length) {
+      return
+    }
+
+    // Take only the first one and map button info to boolean values.
+    const gamepad: Gamepad = gamepads[0]
+    let dirty = false
+
+    // Accumulate button states as a bitmask number.
+    const buttons: number = gamepad.buttons.reduce((accumulator: number, button: GamepadButton, index: number) => {
+      return accumulator + (button.pressed ? 1 << index : 0)
+    }, 0)
+
+    // Check if buttons have changed
+    if (buttons !== this.buttons) {
+      dirty = true
+    }
+
+    const axes = gamepad.axes as number[]
+
+    // Check if there are any changes in axes.
+    const axesChanged = axes.some((value: number, index: number) => value != this.axes?.[index])
+    if (axesChanged) {
+      dirty = true
+    }
+
+    if (dirty) {
+      // console.debug(axes[0], axes[1], axes[2], axes[3], buttons)
+
+      const event: DEvent = {
+        type: EvType.Joystick, data1: -1, data2: -2, data3: -1,
+      }
+      event.data1 = buttons
+      event.data2 = axes[0]  // x-axis
+      event.data3 = axes[1] // y-axis
+
+      // if (document.pointerLockElement !== null) {
+        this.postEvent(event)
+      //   console.debug(event)
+      // }
+    }
+
+    // Store current states for comparison in next loop.
+    this.buttons = buttons
+    this.axes = axes
   }
 }
