@@ -15,6 +15,8 @@
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false,
     "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
