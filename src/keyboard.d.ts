@@ -1,5 +1,5 @@
 /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/KeyboardLayoutMap) */
-interface KeyboardLayoutMap extends ReadonlyMap<string, string> {
+export interface KeyboardLayoutMap extends ReadonlyMap<string, string> {
 }
 
 /**
@@ -7,7 +7,7 @@ interface KeyboardLayoutMap extends ReadonlyMap<string, string> {
  *
  * [MDN Reference](https://developer.mozilla.org/docs/Web/API/Keyboard)
  */
-interface Keyboard {
+export interface Keyboard {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/Keyboard/getLayoutMap) */
   getLayoutMap(): Promise<KeyboardLayoutMap>;
 
@@ -18,6 +18,6 @@ interface Keyboard {
   unlock(): void;
 }
 
-declare interface Navigator {
+export declare interface Navigator {
   readonly keyboard?: Keyboard;
 }
