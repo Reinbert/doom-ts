@@ -45,15 +45,30 @@ function glslPlugin(): import('vite').Plugin {
   }
 }
 
+function copyPublicPlugin(): import('vite').Plugin {
+  return {
+    name: 'copy-public-to-dist-public',
+    closeBundle() {
+      const srcDir = fileURLToPath(new URL('./public', import.meta.url))
+      const destDir = fileURLToPath(new URL('./dist/public', import.meta.url))
+      if (fs.existsSync(srcDir)) {
+        fs.cpSync(srcDir, destDir, { recursive: true })
+      }
+    },
+  }
+}
+
 export default defineConfig({
   plugins: [
     glslPlugin(),
+    copyPublicPlugin(),
     dts({
       rollupTypes: true,
       tsconfigPath: './tsconfig.json',
     }),
   ],
   build: {
+    copyPublicDir: false,
     lib: {
       entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
       name: 'Doom',
