@@ -2,7 +2,18 @@
   "name": "@reinbert/doom-ts",
   "version": "0.1.0",
   "description": "Framework-agnostic TypeScript port of Doom",
+  "keywords": [
+    "doom",
+    "game-engine",
+    "webgl",
+    "threejs",
+    "typescript"
+  ],
   "license": "GPL-3.0",
+  "author": "Reinbert (https://github.com/reinbert)",
+  "contributors": [
+    "Thomas Chandelle (https://gitlab.com/tchandelle)"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
