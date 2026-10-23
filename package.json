@@ -1,6 +1,6 @@
 {
   "name": "@reinbert/doom-ts",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Framework-agnostic TypeScript port of Doom",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -38,8 +38,8 @@
   "devDependencies": {
     "@types/stats.js": "^0.17.3",
     "@types/three": "^0.163.0",
-    "typescript": "~5.9.0",
-    "vite": "7.3.6",
+    "typescript": "5.9.3",
+    "vite": "7.3.7",
     "vite-plugin-dts": "^5.1.2"
   },
   "license": "GPL-3.0"
